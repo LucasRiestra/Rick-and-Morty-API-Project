@@ -1,0 +1,91 @@
+.headTitle{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: rgb(241, 255, 241);
+    background-color: rgb(29, 29, 29);
+    padding: 0.70%;
+    margin-bottom: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 20% 80%; 
+    gap: 20px; 
+}
+
+.sidebar {
+    height: auto;
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.sidebar h2 {
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.sidebar button {
+    margin-top: 20px;
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+
+.episode-details {
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.character-list {
+    display: grid;
+    grid-template-columns: repeat(3, 28.5%); 
+    gap: 20px; 
+    padding-bottom: 20px;
+}
+
+.character-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.locations-list {
+    display: grid;
+    grid-template-columns: repeat(3, 25.5%); 
+    gap: 20px;
+    padding-top: 20px; 
+    padding-bottom: 20px;
+}
+
+.location-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+}
