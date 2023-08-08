@@ -94,13 +94,28 @@
     border: 1px solid #ccc;
     padding: 10px;
     gap: 50px;
+    cursor: pointer;
 }
 
 button {
-    margin-top: 20px;
+    margin: 20px;
     background-color: #ff9900;
     color: #fff;
     border: none;
     padding: 10px 15px;
+    cursor: pointer;
+}
+
+.button-container {
+    margin-top: 20px; 
+    display: flex;
+    gap: 20px;
+    padding-left: 25px;
+}
+
+.residents-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     cursor: pointer;
 }
