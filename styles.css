@@ -83,9 +83,24 @@
     padding-bottom: 20px;
 }
 
-.location-item {
-    border: 1px solid #ddd;
+.container-locations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 50px;
+    padding: 30px;
+}
+
+.location-grid {
+    border: 1px solid #ccc;
     padding: 10px;
-    background-color: #fff;
-    text-align: center;
+    gap: 50px;
+}
+
+button {
+    margin-top: 20px;
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
 }
