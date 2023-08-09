@@ -15,6 +15,7 @@ function init() {
     return __awaiter(this, void 0, void 0, function* () {
         yield loadEpisodes();
         yield fetchLocations();
+        ;
         const characterImages = mainContainer.querySelectorAll(".character-image");
         characterImages.forEach(characterImage => {
             characterImage.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {

@@ -137,41 +137,58 @@ export function createCharacterModal(character) {
             characterEpisodes.appendChild(episodeCodeParagraph);
         }
         modalBody.appendChild(characterEpisodes);
-    });
-}
-function updateModalWithLocationInfo(location) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const modalBody = document.querySelector(".modal-body");
-        const modalTitle = document.querySelector(".modal-title");
-        modalTitle.textContent = `Location: ${location.name}`;
-        modalBody.innerHTML = "";
-        const typeElement = document.createElement("p");
-        typeElement.textContent = `Location type: ${location.type}`;
-        modalBody.appendChild(typeElement);
-        const dimensionElement = document.createElement("p");
-        dimensionElement.textContent = `Location dimension: ${location.dimension}`;
-        modalBody.appendChild(dimensionElement);
-        const residentsElement = document.createElement("h6");
-        residentsElement.classList.add("residents-list");
-        if (location.residents.length > 0) {
-            const residentsNames = yield fetchResidentsNames(location.residents);
-            residentsElement.textContent = `Residents list: ${residentsNames.join(", ")}`;
-        }
-        else {
-            residentsElement.textContent = "No residents";
-        }
-        modalBody.appendChild(residentsElement);
-        function fetchResidentsNames(residentUrls) {
+        function updateModalWithLocationInfo(location) {
             return __awaiter(this, void 0, void 0, function* () {
-                const residentsNames = [];
-                const residentPromises = residentUrls.map((url) => __awaiter(this, void 0, void 0, function* () {
-                    const residentResponse = yield fetch(url);
-                    const residentData = yield residentResponse.json();
-                    residentsNames.push(residentData.name);
-                }));
-                yield Promise.all(residentPromises);
-                return residentsNames;
+                const modalBody = document.querySelector(".modal-body");
+                const modalTitle = document.querySelector(".modal-title");
+                modalTitle.textContent = `Location: ${location.name}`;
+                modalBody.innerHTML = "";
+                const typeElement = document.createElement("p");
+                typeElement.textContent = `Location type: ${location.type}`;
+                modalBody.appendChild(typeElement);
+                const dimensionElement = document.createElement("p");
+                dimensionElement.textContent = `Location dimension: ${location.dimension}`;
+                modalBody.appendChild(dimensionElement);
+                const residentsElement = document.createElement("div");
+                residentsElement.classList.add("residents-list");
+                const residentsHeader = document.createElement("h6");
+                residentsHeader.textContent = "Residents Names:";
+                residentsElement.appendChild(residentsHeader);
+                const residentsNames = yield fetchResidentsNames(location.residents);
+                if (residentsNames.length > 0) {
+                    const residentsList = document.createElement("ul");
+                    residentsNames.forEach(residentName => {
+                        const residentItem = document.createElement("li");
+                        residentItem.textContent = residentName;
+                        residentItem.classList.add("resident-name");
+                        residentItem.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+                            const response = yield fetch(`https://rickandmortyapi.com/api/character?name=${residentName}`);
+                            const data = yield response.json();
+                            const character = data.results[0];
+                            createCharacterModal(character);
+                        }));
+                        residentsList.appendChild(residentItem);
+                    });
+                    residentsElement.appendChild(residentsList);
+                }
+                else {
+                    residentsElement.textContent = "No residents";
+                }
+                modalBody.appendChild(residentsElement);
+                function fetchResidentsNames(residentUrls) {
+                    return __awaiter(this, void 0, void 0, function* () {
+                        const residentsNames = [];
+                        const residentPromises = residentUrls.map((url) => __awaiter(this, void 0, void 0, function* () {
+                            const residentResponse = yield fetch(url);
+                            const residentData = yield residentResponse.json();
+                            residentsNames.push(residentData.name);
+                        }));
+                        yield Promise.all(residentPromises);
+                        return residentsNames;
+                    });
+                }
             });
         }
+        ;
     });
 }
