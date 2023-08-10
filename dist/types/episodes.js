@@ -11,7 +11,7 @@ const episodeList = document.getElementById("episodeList");
 const loadMoreButton = document.getElementById("loadMore");
 let episodeCounter = 0;
 const episodesPerLoad = 20;
-let allEpisodes = [];
+let allEpisodes;
 import { loadEpisodeAndCharacters } from "./characters.js";
 export function loadEpisodes() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -48,7 +48,7 @@ export function loadEpisodes() {
 export function loadMoreEpisodes() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const nextPageUrl = `https://rickandmortyapi.com/api/episode?page=${Math.floor(episodeCounter / episodesPerLoad) + 1}`;
+            const nextPageUrl = `https://rickandmortyapi.com/api/episode?page=${Math.floor(episodeCounter / episodesPerLoad)}`;
             const response = yield fetch(nextPageUrl);
             const data = yield response.json();
             const newEpisodes = data.results;

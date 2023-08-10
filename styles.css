@@ -5,8 +5,28 @@
     align-items: center;
     color: rgb(241, 255, 241);
     background-color: rgb(29, 29, 29);
-    padding: 0.70%;
+    padding-top: 35%;
     margin-bottom: 0;
+    font-size: 100px;
+    text-shadow: 10px 10px 10px black;
+}
+
+.headTitle{
+    height: 100vh;
+    background-image: url("img/RickAndMortyHeader.jpeg");
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body {
+    height: 100vh;
+    background-image: url("img/RickAndMortyInicialMain.webp");
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .grid {
@@ -56,10 +76,38 @@
     padding: 20px;
 }
 
+.mainTitle{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    padding-top: 10%;
+    padding-right: 40%;
+    margin-bottom: 0;
+    font-size: 80px;
+    text-shadow: 10px 10px 10px black;
+}
+
+.mainTitle h2{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    padding-top: 20%;
+    padding-right: 40%;
+    margin-bottom: 0;
+    font-size: 80px;
+    text-shadow: 10px 10px 10px black;
+}
 
 .episode-details {
     margin-bottom: 20px;
     padding-top: 10px;
+    color: #efefef;
+    text-shadow: 10px 10px 10px rgb(0, 0, 0);
+    font-size: 30px;
 }
 
 .character-list {
@@ -70,9 +118,17 @@
 }
 
 .character-item {
-    border: 1px solid #ddd;
-    padding: 10px;
-    background-color: #fff;
+    padding-top: 20px;
+    background-color: #dbe9ff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 3px 3px 5px rgb(255, 255, 255);
+    box-shadow: 2px 2px 10px rgb(0, 163, 27);
+}
+
+.character-item img{
+    border-radius: 10px;
 }
 
 .locations-list {
@@ -88,6 +144,17 @@
     grid-template-columns: repeat(3, 1fr); 
     gap: 50px;
     padding: 30px;
+    transition: scroll-behavior 2s ease-in-out;
+}
+
+
+#container-locationsAll {
+    background-image: url("img/RickAndMortyInicialMain.webp");
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
 }
 
 .location-grid {
@@ -95,6 +162,13 @@
     padding: 10px;
     gap: 50px;
     cursor: pointer;
+    padding-top: 20px;
+    background-color: #dbe9ff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 3px 3px 5px rgb(255, 255, 255);
+    box-shadow: 2px 2px 10px rgb(0, 163, 27);
 }
 
 button {
@@ -118,4 +192,17 @@ button {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     cursor: pointer;
+}
+
+.modal-content {
+    text-align: center;
+    box-shadow: 5px 5px 15px black;
+}
+
+.modal-header {
+    text-align: center;
+}
+
+.modal-body img {
+    border-radius: 10px;
 }

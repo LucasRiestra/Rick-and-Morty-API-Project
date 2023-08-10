@@ -7,11 +7,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const locationsButton = document.getElementById("locationsButton");
 const containerCharacters = document.getElementById("container-characters");
 const containerLocations = document.getElementById("container-locations");
+const loadMoreButton = document.getElementById("loadMore");
 window.addEventListener("load", init);
 import { createCharacterModal } from "./characters.js";
+import { loadEpisodes } from "./episodes.js";
+import { loadMoreEpisodes } from "./episodes.js";
 export function fetchLocations() {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield fetch("https://rickandmortyapi.com/api/location");
@@ -25,19 +27,12 @@ export function displayLocations() {
         containerLocations.innerHTML = '';
         const bottomButtons = document.createElement('div');
         bottomButtons.classList.add('button-container');
-        const backToEpisodesButton = document.createElement('button');
-        backToEpisodesButton.textContent = 'Back to Episodes';
-        backToEpisodesButton.classList.add('backToEpisodes-button');
-        backToEpisodesButton.addEventListener('click', () => {
-            window.location.href = "index.html";
-        });
         const loadLocationsButton = document.createElement('button');
         loadLocationsButton.textContent = 'Load More Locations';
         loadLocationsButton.classList.add('location-button');
         loadLocationsButton.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
             yield loadMoreLocations();
         }));
-        bottomButtons.appendChild(backToEpisodesButton);
         bottomButtons.appendChild(loadLocationsButton);
         containerLocations.appendChild(bottomButtons);
         for (let i = 0; i < locationsData.length; i += 3) {
@@ -102,35 +97,26 @@ export function loadMoreLocations() {
                 containerLocations.appendChild(locationRow);
             }
             locationCounter += locationsPerPage;
+            if (newLocations.length > 0) {
+                const lastLocationElement = containerLocations.lastElementChild;
+                if (lastLocationElement) {
+                    lastLocationElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+                }
+            }
         }
         catch (error) {
             console.error("Error loading more locations:", error);
         }
         const bottomButtons = document.createElement('div');
         bottomButtons.classList.add('button-container');
-        const backToEpisodesButton = document.createElement('button');
-        backToEpisodesButton.textContent = 'Back to Episodes';
-        backToEpisodesButton.classList.add('backToEpisodes-button');
-        backToEpisodesButton.addEventListener('click', () => {
-            window.location.href = "index.html";
-        });
         const loadLocationsButton = document.createElement('button');
         loadLocationsButton.textContent = 'Load More Locations';
         loadLocationsButton.classList.add('location-button');
         loadLocationsButton.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
             yield loadMoreLocations();
         }));
-        bottomButtons.appendChild(backToEpisodesButton);
         bottomButtons.appendChild(loadLocationsButton);
         containerLocations.appendChild(bottomButtons);
-    });
-}
-export function init() {
-    const locationsButton = document.getElementById("locationsButton");
-    locationsButton.addEventListener("click", () => {
-        containerCharacters.style.display = "none";
-        containerLocations.style.display = "block";
-        displayLocations();
     });
 }
 function createLocationsModal(location) {
@@ -185,5 +171,92 @@ function createLocationsModal(location) {
             });
         }
     });
+}
+;
+loadMoreButton.addEventListener("click", loadMoreEpisodes);
+function loadEpisodeAndCharacters(episodeId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const episodeResponse = yield fetch(`https://rickandmortyapi.com/api/episode/${episodeId}`);
+            const episode = yield episodeResponse.json();
+            const episodeDetailsDiv = document.createElement("div");
+            episodeDetailsDiv.classList.add("episode-details");
+            const h2 = document.createElement("h2");
+            h2.textContent = episode.name;
+            episodeDetailsDiv.appendChild(h2);
+            const airDate = document.createElement("p");
+            airDate.textContent = `Air Date: ${episode.air_date}`;
+            episodeDetailsDiv.appendChild(airDate);
+            const episodeCode = document.createElement("p");
+            episodeCode.textContent = `Episode Code: ${episode.episode}`;
+            episodeDetailsDiv.appendChild(episodeCode);
+            const characterIds = episode.characters.map((url) => parseInt(url.split('/').pop() || ''));
+            const characterPromises = characterIds.map((id) => fetch(`https://rickandmortyapi.com/api/character/${id}`));
+            const characterResponses = yield Promise.all(characterPromises);
+            const characters = yield Promise.all(characterResponses.map(response => response.json()));
+            const charactersDiv = document.createElement("div");
+            charactersDiv.classList.add("character-list");
+            const fragment = document.createDocumentFragment();
+            fragment.appendChild(episodeDetailsDiv);
+            fragment.appendChild(charactersDiv);
+            while (containerCharacters.firstChild) {
+                containerCharacters.removeChild(containerCharacters.firstChild);
+            }
+            containerCharacters.appendChild(fragment);
+            containerCharacters.scrollIntoView({ behavior: "smooth" });
+            characters.forEach(character => {
+                const characterDiv = document.createElement("div");
+                characterDiv.classList.add("character-item");
+                const characterImage = document.createElement("img");
+                characterImage.src = character.image;
+                characterImage.alt = character.name;
+                characterImage.addEventListener("click", () => {
+                    createCharacterModal(character);
+                });
+                characterImage.setAttribute("data-bs-toggle", "modal");
+                characterImage.setAttribute("data-bs-target", "#exampleModal");
+                characterDiv.appendChild(characterImage);
+                const nameParagraph = document.createElement("h2");
+                nameParagraph.textContent = `Name: ${character.name}`;
+                characterDiv.appendChild(nameParagraph);
+                const statusParagraph = document.createElement("p");
+                statusParagraph.textContent = `Status: ${character.status}`;
+                characterDiv.appendChild(statusParagraph);
+                const speciesParagraph = document.createElement("p");
+                speciesParagraph.textContent = `Species: ${character.species}`;
+                characterDiv.appendChild(speciesParagraph);
+                charactersDiv.appendChild(characterDiv);
+            });
+            containerCharacters.appendChild(episodeDetailsDiv);
+            containerCharacters.appendChild(charactersDiv);
+        }
+        catch (error) {
+            console.error("Error loading episode and characters:", error);
+        }
+    });
+}
+;
+export function init() {
+    (() => __awaiter(this, void 0, void 0, function* () {
+        const locationsButton = document.getElementById("locationsButton");
+        locationsButton.addEventListener("click", () => {
+            containerCharacters.style.display = "none";
+            containerLocations.style.display = "block";
+            displayLocations();
+        });
+        yield (() => __awaiter(this, void 0, void 0, function* () {
+            yield loadEpisodes();
+        }))();
+        const episodeElements = document.querySelectorAll(".episode-item");
+        episodeElements.forEach(episodeElement => {
+            episodeElement.addEventListener("click", () => {
+                containerCharacters.style.display = "block";
+                containerLocations.style.display = "none";
+                const episodeId = parseInt(episodeElement.getAttribute("data-episode-id") || "0");
+                console.log("ID del episodio:", episodeId);
+                loadEpisodeAndCharacters(episodeId);
+            });
+        });
+    }))();
 }
 ;

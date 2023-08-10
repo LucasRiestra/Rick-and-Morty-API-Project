@@ -9,11 +9,11 @@
     <script type="module" src="dist/main.js"></script>
 </head>
 <body>
-    <header>
+    <header class="headerImage">
         <h1 class="headTitle">Rick And Morty API</h1>
     </header>
 <div  class="grid">
-    <div class="sidebar">
+    <div class="sidebar" id="data-episode-id">
         <h2>Episodes</h2>
         <button id="locationsButton">Locations</button>
         <ul id="episodeList">
@@ -22,8 +22,8 @@
         <button id="loadMore">Load Episodes</button>
     </div>
     <div class="container" id="container-characters">
-      <h1>Welcome to the Rick and Morty API.</h1>
-        <h2>Please Select your favorite Episode!!</h2>
+      <h1 class="mainTitle">Welcome to the Rick and Morty API.</h1>
+        <h2 class="mainTitle">Please Select your favorite Episode!!</h2>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

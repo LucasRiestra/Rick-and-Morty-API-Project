@@ -1,7 +1,6 @@
-const locationsButton = document.getElementById("locationsButton") as HTMLButtonElement;
 const containerCharacters = document.getElementById("container-characters") as HTMLDivElement;
 const containerLocations = document.getElementById("container-locations") as HTMLDivElement;
-
+const loadMoreButton = document.getElementById("loadMore") as HTMLButtonElement;
 interface LocationData {
     id: number;
     name: string;
@@ -15,6 +14,9 @@ interface LocationData {
 window.addEventListener("load", init);
 
 import { createCharacterModal } from "./characters.js";
+import { loadEpisodes } from "./episodes.js";
+import { loadMoreEpisodes } from "./episodes.js";
+
 
 export async function fetchLocations() {
     const response = await fetch("https://rickandmortyapi.com/api/location");
@@ -29,12 +31,6 @@ export async function displayLocations() {
 
     const bottomButtons = document.createElement('div');
         bottomButtons.classList.add('button-container'); 
-        const backToEpisodesButton = document.createElement('button');
-        backToEpisodesButton.textContent = 'Back to Episodes';
-        backToEpisodesButton.classList.add('backToEpisodes-button');
-        backToEpisodesButton.addEventListener('click', () => {
-            window.location.href = "index.html";
-        });
 
         const loadLocationsButton = document.createElement('button');
         loadLocationsButton.textContent = 'Load More Locations';
@@ -43,7 +39,6 @@ export async function displayLocations() {
             await loadMoreLocations();
         });
 
-        bottomButtons.appendChild(backToEpisodesButton);
         bottomButtons.appendChild(loadLocationsButton);
 
         containerLocations!.appendChild(bottomButtons);
@@ -130,18 +125,18 @@ export async function loadMoreLocations() {
 
         locationCounter += locationsPerPage;
 
+        if (newLocations.length > 0) {
+            const lastLocationElement = containerLocations.lastElementChild;
+            if (lastLocationElement) {
+                lastLocationElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+            }
+        }
+
     } catch (error) {
         console.error("Error loading more locations:", error);
     }
     const bottomButtons = document.createElement('div');
         bottomButtons.classList.add('button-container'); 
-
-        const backToEpisodesButton = document.createElement('button');
-        backToEpisodesButton.textContent = 'Back to Episodes';
-        backToEpisodesButton.classList.add('backToEpisodes-button');
-        backToEpisodesButton.addEventListener('click', () => {
-            window.location.href = "index.html";
-        });
 
         const loadLocationsButton = document.createElement('button');
         loadLocationsButton.textContent = 'Load More Locations';
@@ -149,23 +144,11 @@ export async function loadMoreLocations() {
         loadLocationsButton.addEventListener('click', async () => {
             await loadMoreLocations();
         });
-
-        bottomButtons.appendChild(backToEpisodesButton);
         bottomButtons.appendChild(loadLocationsButton);
 
         containerLocations!.appendChild(bottomButtons);
 
 }
-
-export function init() {
-    const locationsButton = document.getElementById("locationsButton") as HTMLButtonElement;
-    locationsButton.addEventListener("click", () => {
-        containerCharacters.style.display = "none";
-        containerLocations.style.display = "block";
-        displayLocations();
-    });
-}
-
     async function createLocationsModal(location: LocationData): Promise<void> {
     const modal = document.getElementById("exampleModal") as HTMLElement;
 
@@ -231,4 +214,116 @@ export function init() {
         
             return residentsNames;
         }
+    };
+
+    loadMoreButton.addEventListener("click", loadMoreEpisodes);
+
+
+    async function loadEpisodeAndCharacters(episodeId: number): Promise<void> {
+        try {
+            const episodeResponse = await fetch(`https://rickandmortyapi.com/api/episode/${episodeId}`);
+            const episode = await episodeResponse.json();
+    
+            const episodeDetailsDiv = document.createElement("div");
+            episodeDetailsDiv.classList.add("episode-details");
+    
+            const h2 = document.createElement("h2");
+            h2.textContent = episode.name;
+            episodeDetailsDiv.appendChild(h2);
+    
+            const airDate = document.createElement("p");
+            airDate.textContent = `Air Date: ${episode.air_date}`;
+            episodeDetailsDiv.appendChild(airDate);
+    
+            const episodeCode = document.createElement("p");
+            episodeCode.textContent = `Episode Code: ${episode.episode}`;
+            episodeDetailsDiv.appendChild(episodeCode);
+            
+            const characterIds = episode.characters.map((url: string) => parseInt(url.split('/').pop() || ''));
+    
+            const characterPromises = characterIds.map((id:number) => fetch(`https://rickandmortyapi.com/api/character/${id}`));
+            const characterResponses = await Promise.all(characterPromises);
+            const characters = await Promise.all(characterResponses.map(response => response.json()));
+    
+            const charactersDiv = document.createElement("div");
+            charactersDiv.classList.add("character-list");
+    
+            const fragment = document.createDocumentFragment();
+    
+            fragment.appendChild(episodeDetailsDiv);
+            fragment.appendChild(charactersDiv);
+            
+            while (containerCharacters.firstChild) {
+                containerCharacters.removeChild(containerCharacters.firstChild);
+            }
+    
+            containerCharacters.appendChild(fragment);
+            containerCharacters.scrollIntoView({ behavior: "smooth" });
+    
+            characters.forEach(character => {
+                const characterDiv = document.createElement("div");
+                characterDiv.classList.add("character-item");
+    
+                const characterImage = document.createElement("img");
+                characterImage.src = character.image;
+                characterImage.alt = character.name;
+    
+                characterImage.addEventListener("click", () => {
+                    createCharacterModal(character);
+                   });
+           
+                characterImage.setAttribute("data-bs-toggle", "modal");
+                characterImage.setAttribute("data-bs-target", "#exampleModal");
+    
+                characterDiv.appendChild(characterImage);
+    
+                const nameParagraph = document.createElement("h2");
+                nameParagraph.textContent = `Name: ${character.name}`;
+                characterDiv.appendChild(nameParagraph);
+    
+                const statusParagraph = document.createElement("p");
+                statusParagraph.textContent = `Status: ${character.status}`;
+                characterDiv.appendChild(statusParagraph);
+    
+                const speciesParagraph = document.createElement("p");
+                speciesParagraph.textContent = `Species: ${character.species}`;
+                characterDiv.appendChild(speciesParagraph);
+    
+                charactersDiv.appendChild(characterDiv);
+    
+            });
+    
+    
+            containerCharacters.appendChild(episodeDetailsDiv);
+            containerCharacters.appendChild(charactersDiv);
+    
+        } catch (error) {
+            console.error("Error loading episode and characters:", error);
+        }
+    };
+
+    export function init() {
+        (async () => {
+            const locationsButton = document.getElementById("locationsButton") as HTMLButtonElement;
+            locationsButton.addEventListener("click", () => {
+                containerCharacters.style.display = "none";
+                containerLocations.style.display = "block";
+                displayLocations();
+            });
+    
+            await (async () => {
+                await loadEpisodes();
+            })();
+    
+            const episodeElements = document.querySelectorAll(".episode-item");
+            episodeElements.forEach(episodeElement => {
+                episodeElement.addEventListener("click", () => {
+                    containerCharacters.style.display = "block";
+                    containerLocations.style.display = "none";
+                    const episodeId = parseInt(episodeElement.getAttribute("data-episode-id") || "0");
+                    console.log("ID del episodio:", episodeId);
+                    loadEpisodeAndCharacters(episodeId);
+                });
+            });
+        })();
     };

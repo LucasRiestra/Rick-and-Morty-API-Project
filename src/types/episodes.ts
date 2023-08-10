@@ -3,7 +3,7 @@ const loadMoreButton = document.getElementById("loadMore") as HTMLButtonElement;
 
 let episodeCounter = 0;
 const episodesPerLoad = 20;
-let allEpisodes: Episode[] = []; 
+let allEpisodes: Episode[] 
 
 export interface Episode {
     name: string;
@@ -55,7 +55,7 @@ export async function loadEpisodes(): Promise<void> {
 
 export async function loadMoreEpisodes() {
     try {
-        const nextPageUrl = `https://rickandmortyapi.com/api/episode?page=${Math.floor(episodeCounter / episodesPerLoad) + 1}`;
+        const nextPageUrl = `https://rickandmortyapi.com/api/episode?page=${Math.floor(episodeCounter / episodesPerLoad)}`;
         const response = await fetch(nextPageUrl);
         const data = await response.json();
         const newEpisodes: Episode[] = data.results;

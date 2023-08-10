@@ -174,7 +174,7 @@ export async function createCharacterModal(character: Character): Promise<void> 
     const characterEpisodes = document.createElement("div");
     characterEpisodes.classList.add("character-episodes");
 
-    const characterEpisodesHeader = document.createElement("h2");
+    const characterEpisodesHeader = document.createElement("h3");
     characterEpisodesHeader.textContent = "Episodes";
 
     characterEpisodes.appendChild(characterEpisodesHeader);
@@ -259,4 +259,4 @@ export async function createCharacterModal(character: Character): Promise<void> 
             return residentsNames;
         }
     };
-}
+};

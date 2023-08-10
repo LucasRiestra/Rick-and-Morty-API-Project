@@ -123,7 +123,7 @@ export function createCharacterModal(character) {
         modalBody.appendChild(locationParagraph);
         const characterEpisodes = document.createElement("div");
         characterEpisodes.classList.add("character-episodes");
-        const characterEpisodesHeader = document.createElement("h2");
+        const characterEpisodesHeader = document.createElement("h3");
         characterEpisodesHeader.textContent = "Episodes";
         characterEpisodes.appendChild(characterEpisodesHeader);
         for (const episodeUrl of character.episode) {
@@ -192,3 +192,4 @@ export function createCharacterModal(character) {
         ;
     });
 }
+;
