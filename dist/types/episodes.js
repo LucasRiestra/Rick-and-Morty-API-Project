@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const episodeList = document.getElementById("episodeList");
 const loadMoreButton = document.getElementById("loadMore");
+const containerCharacters = document.getElementById("container-characters");
+const containerLocations = document.getElementById("container-locations");
 let episodeCounter = 0;
 const episodesPerLoad = 20;
 let allEpisodes;
@@ -71,6 +73,16 @@ export function loadMoreEpisodes() {
             });
             episodeCounter += episodesPerLoad;
             window.scrollTo(0, document.body.scrollHeight);
+            const newEpisodeElements = document.querySelectorAll(".episode-item");
+            newEpisodeElements.forEach(newEpisodeElement => {
+                newEpisodeElement.addEventListener("click", () => {
+                    containerCharacters.style.display = "block";
+                    containerLocations.style.display = "none";
+                    const episodeId = parseInt(newEpisodeElement.getAttribute("data-episode-id") || "0" || "1" || "2");
+                    console.log("ID del episodio:", episodeId);
+                    loadEpisodeAndCharacters(episodeId);
+                });
+            });
         }
         catch (error) {
             console.error("Error loading more episodes:", error);

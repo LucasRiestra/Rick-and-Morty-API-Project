@@ -1,4 +1,3 @@
-
 interface Character {
     name: string;
     status: CharacterStatus;
@@ -38,10 +37,10 @@ interface LocationData {
     location: string;
 }
 
-const containerCharacters = document.getElementById("container-characters") as HTMLDivElement;
-const containerLocations = document.getElementById("container-locations") as HTMLDivElement;
+const containerCharacters = document.getElementById("container-characters") as HTMLElement;
+const containerLocations = document.getElementById("container-locations") as HTMLElement;
 
-export const mainContainer = document.getElementById("container-characters") as HTMLDivElement;
+export const mainContainer = document.getElementById("container-characters") as HTMLElement;
 
 import { displayLocations } from "./locations.js";
 
@@ -153,6 +152,7 @@ export async function createCharacterModal(character: Character): Promise<void> 
 
     const locationParagraph = document.createElement("h6");
     locationParagraph.textContent = `Location: ${locationName}`;
+    locationParagraph.style.textDecoration = "underline";
     locationParagraph.style.cursor = "pointer";
 
     locationParagraph.addEventListener("click", () => {
@@ -215,9 +215,9 @@ export async function createCharacterModal(character: Character): Promise<void> 
         residentsElement.classList.add("residents-list");
 
         const residentsHeader = document.createElement("h6");
-        residentsHeader.textContent = "Residents Names:";
+        residentsHeader.textContent = "Residents Names: (you can select it)";
         residentsElement.appendChild(residentsHeader);
-    
+
         const residentsNames = await fetchResidentsNames(location.residents);
 
         if (residentsNames.length > 0) {
@@ -257,6 +257,6 @@ export async function createCharacterModal(character: Character): Promise<void> 
             await Promise.all(residentPromises);
         
             return residentsNames;
-        }
+        };
     };
 };

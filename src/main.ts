@@ -7,7 +7,6 @@ window.addEventListener("load", init);
 async function init() {
     await loadEpisodes(); 
     await fetchLocations();
-;
 
     const characterImages = mainContainer.querySelectorAll(".character-image");
     characterImages.forEach(characterImage => {

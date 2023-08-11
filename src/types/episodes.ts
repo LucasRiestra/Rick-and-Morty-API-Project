@@ -1,9 +1,11 @@
 const episodeList = document.getElementById("episodeList") as HTMLUListElement;
 const loadMoreButton = document.getElementById("loadMore") as HTMLButtonElement;
+const containerCharacters = document.getElementById("container-characters") as HTMLElement;
+const containerLocations = document.getElementById("container-locations") as HTMLElement;
 
 let episodeCounter = 0;
 const episodesPerLoad = 20;
-let allEpisodes: Episode[] 
+let allEpisodes: Episode[];
 
 export interface Episode {
     name: string;
@@ -88,6 +90,17 @@ export async function loadMoreEpisodes() {
         episodeCounter += episodesPerLoad;
 
         window.scrollTo(0, document.body.scrollHeight);
+
+        const newEpisodeElements = document.querySelectorAll(".episode-item");
+        newEpisodeElements.forEach(newEpisodeElement => {
+            newEpisodeElement.addEventListener("click", () => {
+                containerCharacters.style.display = "block";
+                containerLocations.style.display = "none";
+                const episodeId = parseInt(newEpisodeElement.getAttribute("data-episode-id") || "0" || "1" || "2");
+                console.log("ID del episodio:", episodeId);
+                loadEpisodeAndCharacters(episodeId);
+            });
+        });
 
     } catch (error) {
         console.error("Error loading more episodes:", error);

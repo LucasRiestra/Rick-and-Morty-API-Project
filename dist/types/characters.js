@@ -109,6 +109,7 @@ export function createCharacterModal(character) {
         const locationName = locationData.name;
         const locationParagraph = document.createElement("h6");
         locationParagraph.textContent = `Location: ${locationName}`;
+        locationParagraph.style.textDecoration = "underline";
         locationParagraph.style.cursor = "pointer";
         locationParagraph.addEventListener("click", () => {
             containerCharacters.style.display = "none";
@@ -152,7 +153,7 @@ export function createCharacterModal(character) {
                 const residentsElement = document.createElement("div");
                 residentsElement.classList.add("residents-list");
                 const residentsHeader = document.createElement("h6");
-                residentsHeader.textContent = "Residents Names:";
+                residentsHeader.textContent = "Residents Names: (you can select it)";
                 residentsElement.appendChild(residentsHeader);
                 const residentsNames = yield fetchResidentsNames(location.residents);
                 if (residentsNames.length > 0) {
@@ -187,6 +188,7 @@ export function createCharacterModal(character) {
                         return residentsNames;
                     });
                 }
+                ;
             });
         }
         ;

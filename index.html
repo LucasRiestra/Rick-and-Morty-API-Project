@@ -7,27 +7,30 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script type="module" src="dist/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 </head>
-<body>
+<body id="general-font">
     <header class="headerImage">
         <h1 class="headTitle">Rick And Morty API</h1>
     </header>
-<div  class="grid">
+<main  class="grid">
     <div class="sidebar" id="data-episode-id">
-        <h2>Episodes</h2>
+        <h2>EPISODES</h2>
         <button id="locationsButton">Locations</button>
         <ul id="episodeList">
         
         </ul>
         <button id="loadMore">Load Episodes</button>
     </div>
-    <div class="container" id="container-characters">
-      <h1 class="mainTitle">Welcome to the Rick and Morty API.</h1>
-        <h2 class="mainTitle">Please Select your favorite Episode!!</h2>
-    </div>
+    <section class="container" id="container-characters">
+      <h1 class="mainTitle">Welcome to the Rick and Morty API</h1>
+        <h2 class="mainTitle">Please select your favorite episode</h2>
+    </section>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
+          <div class="modal-content" id="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -36,14 +39,14 @@
               ...
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" id="modal-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
-    <div class="container-locations" id="container-locations" style="display: none;">
-    </div>
-</div>
+    <section class="container-locations" id="container-locations" style="display: none;">
+    </section>
+</main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

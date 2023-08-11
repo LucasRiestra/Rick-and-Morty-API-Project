@@ -135,7 +135,7 @@ function createLocationsModal(location) {
         const residentsElement = document.createElement("div");
         residentsElement.classList.add("residents-list");
         const residentsHeader = document.createElement("h6");
-        residentsHeader.textContent = "Residents Names:";
+        residentsHeader.textContent = "Residents Names: (you can select it)";
         residentsElement.appendChild(residentsHeader);
         const residentsNames = yield fetchResidentsNames(location.residents);
         if (residentsNames.length > 0) {

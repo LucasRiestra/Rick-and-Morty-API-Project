@@ -1,5 +1,5 @@
-const containerCharacters = document.getElementById("container-characters") as HTMLDivElement;
-const containerLocations = document.getElementById("container-locations") as HTMLDivElement;
+const containerCharacters = document.getElementById("container-characters") as HTMLElement;
+const containerLocations = document.getElementById("container-locations") as HTMLElement;
 const loadMoreButton = document.getElementById("loadMore") as HTMLButtonElement;
 interface LocationData {
     id: number;
@@ -16,7 +16,6 @@ window.addEventListener("load", init);
 import { createCharacterModal } from "./characters.js";
 import { loadEpisodes } from "./episodes.js";
 import { loadMoreEpisodes } from "./episodes.js";
-
 
 export async function fetchLocations() {
     const response = await fetch("https://rickandmortyapi.com/api/location");
@@ -118,8 +117,6 @@ export async function loadMoreLocations() {
                 locationElement.setAttribute("data-bs-toggle", "modal");
                 locationElement.setAttribute("data-bs-target", "#exampleModal");
             }
-
-
             containerLocations!.appendChild(locationRow);
         }
 
@@ -149,6 +146,7 @@ export async function loadMoreLocations() {
         containerLocations!.appendChild(bottomButtons);
 
 }
+
     async function createLocationsModal(location: LocationData): Promise<void> {
     const modal = document.getElementById("exampleModal") as HTMLElement;
 
@@ -171,7 +169,7 @@ export async function loadMoreLocations() {
         residentsElement.classList.add("residents-list");
 
         const residentsHeader = document.createElement("h6");
-        residentsHeader.textContent = "Residents Names:";
+        residentsHeader.textContent = "Residents Names: (you can select it)";
         residentsElement.appendChild(residentsHeader);
     
         const residentsNames = await fetchResidentsNames(location.residents);
@@ -290,10 +288,8 @@ export async function loadMoreLocations() {
                 characterDiv.appendChild(speciesParagraph);
     
                 charactersDiv.appendChild(characterDiv);
-    
             });
-    
-    
+
             containerCharacters.appendChild(episodeDetailsDiv);
             containerCharacters.appendChild(charactersDiv);
     
