@@ -12,6 +12,10 @@ Daily Log
 Rick and Morty API
 
 
+
+
+
+
 Day 1: Research 
 Today, I kicked off my project based on the world of "Rick and Morty." My initial focus was to thoroughly research the project requirements and gather relevant resources.
 I went through the provided documentation and explored online resources to understand the expectations and best practices for tackling the project.
